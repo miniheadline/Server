@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	   <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+	   <property name="url" value="jdbc:mysql://localhost:3306/miniheadline?characterEncoding=utf8&amp;serverTimezone=UTC"/>
+	   <property name="username" value="root"/>
+	   <property name="password" value="123456"/>
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	    <property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<bean id="UserJDBCTemplate" class="demo.service.UserJDBCTemplate">
+   		<property name="dataSource"  ref="dataSource" /> 
+    </bean>
+    
+    <bean id="NewsJDBCTemplate" class="demo.service.NewsJDBCTemplate">
+   		<property name="dataSource"  ref="dataSource" /> 
+    </bean>
+    
+    <bean id="CommentJDBCTemplate" class="demo.service.CommentJDBCTemplate">
+   		<property name="dataSource"  ref="dataSource" /> 
+    </bean>
+    
+    <bean id="VideoJDBCTemplate" class="demo.service.VideoJDBCTemplate">
+   		<property name="dataSource"  ref="dataSource" /> 
+    </bean>
+    
+    
+    
+    <bean id="InterCmtJDBCTemplate" class="demo.service.relationship.InterCmtJDBCTemplate">
+   		<property name="dataSource"  ref="dataSource" /> 
+    </bean>
+    
+    <bean id="NewsCmtJDBCTemplate" class="demo.service.relationship.NewsCmtJDBCTemplate">
+   		<property name="dataSource"  ref="dataSource" /> 
+    </bean>
+    
+    <bean id="UserRelationJDBCTemplate" class="demo.service.relationship.UserRelationJDBCTemplate">
+   		<property name="dataSource"  ref="dataSource" /> 
+    </bean>
+    
+    <bean id="UsersCmtJDBCTemplate" class="demo.service.relationship.UsersCmtJDBCTemplate">
+   		<property name="dataSource"  ref="dataSource" /> 
+    </bean>
+    
+    <bean id="UserToNewsJDBCTemplate" class="demo.service.relationship.UserToNewsJDBCTemplate">
+   		<property name="dataSource"  ref="dataSource" /> 
+    </bean>
+    
+    <bean id="UserToVideoJDBCTemplate" class="demo.service.relationship.UserToVideoJDBCTemplate">
+   		<property name="dataSource"  ref="dataSource" /> 
+    </bean>
+    
+    <bean id="VideoCmtJDBCTemplate" class="demo.service.relationship.VideoCmtJDBCTemplate">
+   		<property name="dataSource"  ref="dataSource" /> 
+    </bean>
+	
+
+</beans>
