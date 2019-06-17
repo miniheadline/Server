@@ -46,11 +46,43 @@ public class UserToVideoJDBCTemplate implements UserToVideoDAO {
 	}
 	   
 	public void update(Integer id, Integer vid, Integer cid, Integer uid, Integer type) {
+
+	}
+	
+	public void hasRead(Integer uid, Integer vid, Integer type) {
+		String sql = "select * from UsersToVideos where uid = ? and vid = ? and rel_type = ?";
+		List<UserToVideo> items = jdbcTemplateObject.query(sql, new Object[]{uid, vid, type}, new UserToVideoMapper());
 		
-		/*
-		 自己实现
-		 */
+		System.out.println( items.size() );
 		
+		if (items.size() == 0) {
+			insert(vid, 1, uid, type);
+		}
+	}
+	
+	public void inverse(Integer uid, Integer vid, Integer type) {
+		String sql = "select * from UsersToVideos where uid = ? and vid = ? and rel_type = ?";
+		List<UserToVideo> items = jdbcTemplateObject.query(sql, new Object[]{uid, vid, type}, new UserToVideoMapper());
+		
+		System.out.println( "size: " + items.size() );
+		
+		System.out.print("success.");
+		if (items.size() == 0) {
+			insert(vid, 1, uid, type);
+			
+			System.out.print("success.");
+		}
+		else if (items.size() > 0) {
+			sql = "delete from UsersToVideos where uid = ? and vid = ? and rel_type = ?";
+		    jdbcTemplateObject.update(sql, uid, vid, type);
+		}
+	}
+	
+	public boolean isConnect(Integer uid, Integer vid, Integer type) {
+		String sql = "select * from UsersToVideos where uid = ? and vid = ? and rel_type = ?";
+		List<UserToVideo> items = jdbcTemplateObject.query(sql, new Object[]{uid, vid, type}, new UserToVideoMapper());
+		
+		return (items.size()!=0);
 	}
 	
 }

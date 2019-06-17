@@ -12,7 +12,7 @@ public class CommentMapper implements RowMapper<Comment> {
 
       comment.setCid( rs.getInt("cid") );
       comment.setFid( rs.getInt("from_uid"));
-      comment.setTime( rs.getString("time"));
+      comment.setTime( rs.getDate("time").toString() );
       comment.setReplyNum( rs.getInt("reply_num"));
       comment.setLikeNum( rs.getInt("like_num"));
       comment.setText( rs.getString("text"));

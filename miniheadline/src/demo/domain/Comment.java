@@ -6,7 +6,7 @@ public class Comment {
 	public Integer cid;		// comment id  
 	public Integer fromId;  // writer¡¯s id
 	public String text; 	// text
-	public DateWithSecond time;		// written time
+	public String time;		// written time
 	public Integer replyNum;
 	public Integer likeNum;
 	
@@ -16,14 +16,7 @@ public class Comment {
 	
 	public void setText(String text) { this.text = text; }
 	
-	public void setTime(DateWithSecond time) { this.time = time; }
-	
-	public void setTime(String msg) { 
-		DateWithSecond time = new DateWithSecond();
-		time.setWithString(msg);
-
-		this.time = time;
-	}
+	public void setTime(String time) { this.time = time; }
 	
 	public void setReplyNum(Integer num) { this.replyNum = num; }
 	
@@ -40,6 +33,6 @@ public class Comment {
 	
 	public String getText() { return this.text; }
 	
-	public DateWithSecond getTime() { return this.time; }
+	public String getTime() { return this.time; }
 	
 }

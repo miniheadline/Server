@@ -28,14 +28,87 @@
       <load-on-startup>1</load-on-startup>
    </servlet>
    
+   <servlet>
+      <servlet-name>VideoServlet</servlet-name>
+      <servlet-class>
+         demo.controller.VideoServlet
+      </servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   
+   <servlet>
+      <servlet-name>CommentServlet</servlet-name>
+      <servlet-class>
+         demo.controller.CommentServlet
+      </servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   
+   
    <servlet-mapping>
       <servlet-name>UserServlet</servlet-name>
       <url-pattern>/getUser</url-pattern>
    </servlet-mapping>
+
    
    <servlet-mapping>
       <servlet-name>UserServlet</servlet-name>
-      <url-pattern>/addUser</url-pattern>
+      <url-pattern>/Login</url-pattern>
    </servlet-mapping>
+   
+   <servlet-mapping>
+      <servlet-name>UserServlet</servlet-name>
+      <url-pattern>/UserWithNews</url-pattern>
+   </servlet-mapping>
+   
+   <servlet-mapping>
+      <servlet-name>UserServlet</servlet-name>
+      <url-pattern>/isUserConnect</url-pattern>
+   </servlet-mapping>
+   
+   
+   
+   <servlet-mapping>
+      <servlet-name>VideoServlet</servlet-name>
+      <url-pattern>/UserWithVideo</url-pattern>
+   </servlet-mapping>
+   
+   <servlet-mapping>
+      <servlet-name>VideoServlet</servlet-name>
+      <url-pattern>/isUserConnectWithVideo</url-pattern>
+   </servlet-mapping>
+  
+   <servlet-mapping>
+      <servlet-name>VideoServlet</servlet-name>
+      <url-pattern>/getVideo</url-pattern>
+   </servlet-mapping>
+  
+   <servlet-mapping>
+      <servlet-name>VideoServlet</servlet-name>
+      <url-pattern>/uploadVideo</url-pattern>
+   </servlet-mapping>
+  
+   
+   
+   <servlet-mapping>
+      <servlet-name>CommentServlet</servlet-name>
+      <url-pattern>/add_news_comment</url-pattern>
+   </servlet-mapping>  
+   
+   <servlet-mapping>
+      <servlet-name>CommentServlet</servlet-name>
+      <url-pattern>/add_videos_comment</url-pattern>
+   </servlet-mapping>  
+   
+   <servlet-mapping>
+      <servlet-name>CommentServlet</servlet-name>
+      <url-pattern>/add_second_comment</url-pattern>
+   </servlet-mapping>  
+  
+   <servlet-mapping>
+      <servlet-name>CommentServlet</servlet-name>
+      <url-pattern>/getComment</url-pattern>
+   </servlet-mapping>  
+  
    
 </web-app>

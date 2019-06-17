@@ -11,6 +11,9 @@ public class VideoMapper implements RowMapper<Video> {
       Video video = new Video();
       video.setId( rs.getInt("vid") );
       video.setUrl( rs.getString("url"));
+      video.setInfo( rs.getString("introdution") );
+      video.setTitle( rs.getString("title") );
+      video.setUid( rs.getInt("from_uid") );
       
       return video;
    }

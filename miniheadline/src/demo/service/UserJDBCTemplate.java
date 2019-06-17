@@ -1,5 +1,6 @@
 package demo.service;
 
+import java.util.Collection;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +14,7 @@ public class UserJDBCTemplate implements UserDAO {
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplateObject; 
 	
+	
 	public void setDataSource(DataSource ds) {
 		dataSource = ds;
 		jdbcTemplateObject = new JdbcTemplate(dataSource);
@@ -20,7 +22,7 @@ public class UserJDBCTemplate implements UserDAO {
 
 	public void insert(String name, String password, String pic_url, String description, String address, String birthday) {
 		
-		String sql = " insert into Users(username,password,pic_url,description,birthday,address) values(?,?,?,?,?,?) ";
+		String sql = " insert into users(username,password,pic_url,description,birthday,address) values(?,?,?,?,?,?) ";
 		jdbcTemplateObject.update( sql, name, password, pic_url, description, birthday, address );
 		
 		System.out.println("Insert into Table Users with name: " + name);
@@ -52,5 +54,41 @@ public class UserJDBCTemplate implements UserDAO {
 	    System.out.println("Updated Users with ID = " + id );
 	}
 	
+	public int logIn(String username, String password) {
+			
+		String sql = "select * from Users where username = ? and password = ?";
+		List <User> users = jdbcTemplateObject.query(sql, new Object[]{username, password}, new UserMapper());
+	   
+	    if (users.size() > 0) {
+	    	return users.get(0).getId(); // 登陆成功
+	    }
+	    else {
+	    	sql = "select * from Users where username = ?";
+	    	users = jdbcTemplateObject.query(sql, new Object[]{username}, new UserMapper());
+	 	   
+		    if (users.size() > 0) {
+	    		return -1;  // 密码错误
+	    	}
+	    	else return -2; // 用户不存在
+	    }
+	}
+	
+	public int signIn(String username, String password) {
+		
+		String sql = "select * from Users where username = ?";
+		List <User> users = jdbcTemplateObject.query(sql, new Object[]{username}, new UserMapper());
+		
+		if (users.size() > 0) {
+			return 1; // 用户已存在；
+		}
+		else {
+			sql = " insert into Users(username,password) values(?,?) ";
+			jdbcTemplateObject.update( sql, username, password);
+			
+			System.out.println("Insert into Table Users with name: " + username);
+			
+			return 0; // 用户注册正常；
+		}
+	}
 	
 }

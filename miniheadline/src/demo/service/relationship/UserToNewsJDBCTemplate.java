@@ -46,11 +46,41 @@ public class UserToNewsJDBCTemplate implements UserToNewsDAO {
 	}
 	   
 	public void update(Integer id, Integer nid, Integer cid, Integer uid, Integer type) {
+
+	}
+	
+	public void hasRead(Integer uid, Integer nid, Integer type) {
+		String sql = "select * from UsersToNews where uid = ? and nid = ? and rel_type = ?";
+		List<UserToNews> items = jdbcTemplateObject.query(sql, new Object[]{uid, nid, type}, new UserToNewsMapper());
 		
-		/*
-		 自己实现
-		 */
+		System.out.println( items.size() );
 		
+		if (items.size() == 0) {
+			insert(nid, 1, uid, type);
+		}
+	}
+	
+	public void inverse(Integer uid, Integer nid, Integer type) {
+		String sql = "select * from UsersToNews where uid = ? and nid = ? and rel_type = ?";
+		List<UserToNews> items = jdbcTemplateObject.query(sql, new Object[]{uid, nid, type}, new UserToNewsMapper());
+		
+		System.out.print("success.");
+		if (items.size() == 0) {
+			insert(nid, 1, uid, type);
+			
+			System.out.print("success.");
+		}
+		else if (items.size() > 0) {
+			sql = "delete from UsersToNews where uid = ? and nid = ? and rel_type = ?";
+		    jdbcTemplateObject.update(sql, uid, nid, type);
+		}
+	}
+	
+	public boolean isConnect(Integer uid, Integer nid, Integer type) {
+		String sql = "select * from UsersToNews where uid = ? and nid = ? and rel_type = ?";
+		List<UserToNews> items = jdbcTemplateObject.query(sql, new Object[]{uid, nid, type}, new UserToNewsMapper());
+		
+		return (items.size()!=0);
 	}
 	
 }

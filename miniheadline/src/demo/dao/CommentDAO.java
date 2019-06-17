@@ -12,7 +12,7 @@ public interface CommentDAO {
 	
 	 public void setDataSource(DataSource ds);
 
-	 public void insert(Integer fid, String text, String time, Integer replyNum, Integer likeNum);
+	 public int insert(Integer fid, String text, String time, Integer replyNum, Integer likeNum);
 	 
 	 public void delete(Integer id);
 	 

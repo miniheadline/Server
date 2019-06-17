@@ -10,7 +10,7 @@ public class UserToVideoMapper implements RowMapper<UserToVideo> {
 	   
 	   UserToVideo item = new UserToVideo();
 	   
-	   item.setId( rs.getInt("utnid") );
+	   item.setId( rs.getInt("utvid") );
 	   item.setCid( rs.getInt("cid") );
 	   item.setVid( rs.getInt("vid") );
 	   item.setType( rs.getInt("rel_type") );

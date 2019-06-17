@@ -12,7 +12,7 @@
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	   <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-	   <property name="url" value="jdbc:mysql://localhost:3306/miniheadline?characterEncoding=utf8&amp;serverTimezone=UTC"/>
+	   <property name="url" value="jdbc:mysql://149.28.26.98:3306/miniheadline?characterEncoding=utf8&amp;serverTimezone=UTC"/>
 	   <property name="username" value="root"/>
 	   <property name="password" value="123456"/>
 	</bean>
@@ -20,6 +20,7 @@
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 	    <property name="dataSource" ref="dataSource"></property>
 	</bean>
+	
 
 	<bean id="UserJDBCTemplate" class="demo.service.UserJDBCTemplate">
    		<property name="dataSource"  ref="dataSource" /> 

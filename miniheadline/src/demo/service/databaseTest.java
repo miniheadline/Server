@@ -23,9 +23,10 @@ public class databaseTest {
       template2.insert("www.baidu.com");
       template3.insert("www.baidu.com");
       
-      template4.insert(1, "这是一条评论", "2019.1.1.00.11.22", 0, 0);
+      int id = template4.insert(1, "这是一条评论", "2019.1.1.00.11.22", 0, 0);
       
-      
+      System.out.println(id);
+      /*
       InterCmtJDBCTemplate template5  = (InterCmtJDBCTemplate)context.getBean("InterCmtJDBCTemplate");
       NewsCmtJDBCTemplate template6  = (NewsCmtJDBCTemplate)context.getBean("NewsCmtJDBCTemplate");
       UserRelationJDBCTemplate template7  = (UserRelationJDBCTemplate)context.getBean("UserRelationJDBCTemplate");
@@ -41,6 +42,6 @@ public class databaseTest {
       template9.insert(2, 2, 3, 2);
       template10.insert(2, 2, 2, 2);
       template11.insert(2, 2);
-      
+      */
    }
 }

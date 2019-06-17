@@ -22,7 +22,7 @@ import demo.service.relationship.*;
 import demo.domain.*;
 import demo.domain.relationship.*;
 
-public class UserServlet extends HttpServlet{
+public class VideoServlet extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 
@@ -66,57 +66,56 @@ public class UserServlet extends HttpServlet{
         } catch (Exception e) {
             throw new RuntimeException("调用方法出错！");
         }
-
+    	
+   
     }
-    
-    
-    /* GET */
-	protected void getUser(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+   
+    protected void getVideo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		
-		  // 获取参数
-          String uid = request.getParameter("uid");
-          
-          System.out.println("uid " + uid);
+		// 获取参数
+        String vid = request.getParameter("vid");
+        
+        System.out.println("vid " + vid);
 
-          response.setContentType("text/html");
-          response.setCharacterEncoding("utf-8");
+        response.setContentType("text/html");
+        response.setCharacterEncoding("utf-8");
 
-          PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();
 
-          String msg = null;
-          JSONObject obj = new JSONObject();
-          
-          
-          ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
-          UserJDBCTemplate template1 = (UserJDBCTemplate)context.getBean("UserJDBCTemplate");
-          User user = template1.getUser(Integer.parseInt(uid));
-          	
-          if(user != null){
-              
-              obj.put("username", user.getId());
-              obj.put("password", user.getPassword());
-              obj.put("birthday", user.getDate());
-              obj.put("description", user.getDesription());
-              obj.put("pic_url", user.getPicUrl());
-              obj.put("address", user.getAddress());
-              
-              msg = obj.toString();
-              
-          }
-          else {
-              msg = "failed";
-          }
+        String msg = null;
+        JSONObject obj = new JSONObject();
+        
+        
+        ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        VideoJDBCTemplate template1 = (VideoJDBCTemplate)context.getBean("VideoJDBCTemplate");
+        Video video = template1.getVideo(Integer.parseInt(vid));
+        	
+        if(video != null){
+            
+            obj.put("vid", video.getId());
+            obj.put("url", video.getUrl());
+            obj.put("title", video.getTitle());
+            obj.put("info", video.getInfo());
+            obj.put("from_uid", video.getUid());
 
-          out.print(msg);
-          out.flush();
-          out.close();
-         
+            
+            msg = obj.toString();
+            
+        }
+        else {
+            msg = "failed";
+        }
+
+        out.print(msg);
+        out.flush();
+        out.close();
+       
     }
-	
-	protected void UserWithNews(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
-	
+    
+    protected void UserWithVideo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+    	
         int uid = Integer.parseInt( request.getParameter("uid") );
-        int nid = Integer.parseInt( request.getParameter("nid") );
+        int vid = Integer.parseInt( request.getParameter("vid") );
         int type= Integer.parseInt( request.getParameter("type") );  // type 0:浏览，1:点赞，2:收藏
         
         response.setContentType("text/html");
@@ -124,21 +123,20 @@ public class UserServlet extends HttpServlet{
 
         PrintWriter out = response.getWriter();
         
-        System.out.println("uid&nid: " + uid + " " + nid + " " + type);
+        System.out.println("uid&vid: " + uid + " " + vid + " " + type);
 
         ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
-        UserToNewsJDBCTemplate template  = (UserToNewsJDBCTemplate)context.getBean("UserToNewsJDBCTemplate");
+        UserToVideoJDBCTemplate template  = (UserToVideoJDBCTemplate)context.getBean("UserToVideoJDBCTemplate");
         
-        System.out.println("uid&nid: " + uid + " " + nid);
         
         // 浏览
         if (type == 0) {
         	System.out.println("look");
-        	template.hasRead(uid, nid, type);
+        	template.hasRead(uid, vid, type);
         }
         else if (type == 1 || type == 2) {
         	System.out.println("inverse");
-        	template.inverse(uid, nid, type);
+        	template.inverse(uid, vid, type);
         }
         
         
@@ -146,11 +144,11 @@ public class UserServlet extends HttpServlet{
         out.flush();
         out.close();
     }
-	
-	protected void isUserConnect(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+    
+    protected void isUserConnectWithVideo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		
         int uid = Integer.parseInt( request.getParameter("uid") );
-        int nid = Integer.parseInt( request.getParameter("nid") );
+        int vid = Integer.parseInt( request.getParameter("vid") );
         int type= Integer.parseInt( request.getParameter("type") );  // type 0:浏览，1:点赞，2:收藏
         
         response.setContentType("text/html");
@@ -158,12 +156,12 @@ public class UserServlet extends HttpServlet{
 
         PrintWriter out = response.getWriter();
         
-        System.out.println("uid&nid: " + uid + " " + nid + " " + type);
+        System.out.println("uid&vid: " + uid + " " + vid + " " + type);
 
         ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
-        UserToNewsJDBCTemplate template  = (UserToNewsJDBCTemplate)context.getBean("UserToNewsJDBCTemplate");
+        UserToVideoJDBCTemplate template  = (UserToVideoJDBCTemplate)context.getBean("UserToVideoJDBCTemplate");
         
-        boolean error_code = template.isConnect(uid, nid, type);
+        boolean error_code = template.isConnect(uid, vid, type);
         
         JSONObject obj = new JSONObject();
         obj.put("status", error_code);
@@ -172,13 +170,12 @@ public class UserServlet extends HttpServlet{
         out.flush();
         out.close();
     }
-	
-	
-	/* POST */
-	protected void Login(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+    
+    
+    protected void uploadVideo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
 		
-		response.setContentType("text/html;charset=UTF-8");
-    	  
+    	response.setContentType("text/html;charset=UTF-8");
+  	  
     	System.out.println("请求方式："+request.getMethod());
     	System.out.println("URI："+request.getRequestURI());
     	System.out.println("URL："+request.getRequestURL());
@@ -212,54 +209,26 @@ public class UserServlet extends HttpServlet{
     	JSONObject obj = JSONObject.fromObject(str);
     	System.out.println( obj.toString() );
     	
-    	int post_type = obj.getInt("post_type");
-    	String username = obj.getString("username");
-    	String password = obj.getString("password");
+    	String url = obj.getString("url");
+    	String title = obj.getString("title");
+    	String info = obj.getString("introduction");
+    	int uid = obj.getInt("from_uid");
     	
-    	if (post_type == 0) {
-    		// 登陆
-    		ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
-            UserJDBCTemplate template1 = (UserJDBCTemplate)context.getBean("UserJDBCTemplate");
-            
-            int error_code = template1.logIn(username, password);
-            int uid = 0;
-            
-            if (error_code > 0) {
-            	uid = error_code;
-            	error_code = 0;
-            }
-            
-            JSONObject res = new JSONObject();
-        	res.put("error_code", error_code);
-        	res.put("uid", uid);
-        	
-        	PrintWriter out = response.getWriter();
-        	out.print(res);
-            out.flush();
-            out.close();
-            
-    	}
-    	else {
-    		ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
-            UserJDBCTemplate template1 = (UserJDBCTemplate)context.getBean("UserJDBCTemplate");
-            
-            int error_code;
-            error_code  = template1.signIn(username, password);
-            
-            JSONObject res = new JSONObject();
-        	res.put("error_code", error_code);
-        	
-        	PrintWriter out = response.getWriter();
-        	out.print(res);
-            out.flush();
-            out.close();
-    	}
+    	ApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+    	VideoJDBCTemplate template1 = (VideoJDBCTemplate)context.getBean("VideoJDBCTemplate");
+        
+    	int vid = template1.upload(url, info, title, uid);
     	
-		
+        JSONObject res = new JSONObject();
+        res.put("vid", vid);
+        	
+        PrintWriter out = response.getWriter();
+       	out.print(res);
+       	out.flush();
+        out.close();
+       
+    	
     }
-
-     
-
+	
 }
-
-
+// 0:浏览，1:点赞，2:收藏，3:评论
